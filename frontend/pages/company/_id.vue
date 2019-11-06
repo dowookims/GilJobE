@@ -5,13 +5,14 @@
 </template>
 
 <script>
-import CompanyDetailInfo from '../../components/LeftSideBar/CompanyDetailInfo'
+import CompanyDetailInfo from '../../components/LeftSidebar/CompanyDetailInfo'
 export default {
   components: {
     CompanyDetailInfo
   },
   created() {
-    this.$store.commit('leftSideBar/setDefaultMenu', false)
+    this.$store.commit('leftSidebar/setShowDefaultMenu', false)
+    this.$store.commit('leftSidebar/setShowSearchbar', false)
   }
 }
 </script>
@@ -21,28 +22,10 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  width: 400px;
+  width: 380px;
   height: 100vh;
   background-color: #8774c1;
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: #8774c1;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #5744c1;
-    border-radius: 10px;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+  overflow: hidden;
+  
 }
 </style>

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+NODE_ENV = os.getenv("NODE_ENV", "develop")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,14 +25,26 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY",
                        "cn0d*vpk#2#-1^^*w9+x-h15e5&pzj+p8o$fbzwua4anr%@9fp")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if NODE_ENV == "production" else True
 
-ALLOWED_HOSTS = ["127.0.0.1", "52.78.29.170", "localhost"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "54.180.119.208",
+    "ec2-54-180-119-208.ap-northeast-2.compute.amazonaws.com",
+    "recruitmap.ninja",
+]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ['http://52.78.29.170',
-                         'http://localhost:3000',
-                         'http://127.0.0.1:3000', ]
+CORS_ORIGIN_WHITELIST = [
+    'http://54.180.119.208',
+    'http://ec2-54-180-119-208.ap-northeast-2.compute.amazonaws.com',
+    'http://recruitmap.ninja',
+    'http://localhost',
+    'http://localhost:3000',
+    'http://127.0.0.1',
+    'http://127.0.0.1:3000',
+]
 
 # Application definition
 
@@ -54,6 +67,7 @@ INSTALLED_APPS = [
     # drf
     'rest_framework',
     'filters',
+    'drf_yasg',
 
     # cors
     "corsheaders"
@@ -105,7 +119,7 @@ DATABASES = {
         'NAME': 'nonamed',
         'USER': 'root',
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
-        'HOST': 'nonamed.cf94mqktvsr3.ap-northeast-2.rds.amazonaws.com',
+        'HOST': 'nonamed-final.chtmnbthcdiy.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -155,8 +169,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, '.static_root')
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-            STATIC_DIR,
-            ]
+    STATIC_DIR,
+]
 
 
 # DRF settings
