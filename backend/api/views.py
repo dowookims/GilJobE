@@ -31,10 +31,10 @@ class CompanyViewSet(FiltersMixin, viewsets.ModelViewSet):
         'farther_west': 'lng__lt',
         'farther_north': 'lat__gt',
         'farther_south': 'lat__lt',
-        'more_avg': 'avg_salary__gt',
-        'less_arg': 'avg_salary__lt',
-        'more_frs': 'start_salary__gt',
-        'less_frs': 'start_salary__lt',
+        'more_avg': 'avg_salary__gte',
+        'less_avg': 'avg_salary__lte',
+        'more_frs': 'start_salary__gte',
+        'less_frs': 'start_salary__lte',
         'ind_code': 'ind_code__icontains',
         'scale': 'scale',
     }
@@ -42,7 +42,7 @@ class CompanyViewSet(FiltersMixin, viewsets.ModelViewSet):
     @action(detail=True)
     def jobs(self, request, pk):
         instance = self.get_object()
-        jobs = instance.jobs.all()
+        jobs = instance.jobs.filter(close__gt=datetime.now())
         serializer = JobSerializer(
             jobs, many=True, context={'request': request})
         return Response({
